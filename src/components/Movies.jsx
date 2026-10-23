@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { SearchBox } from "./SearchBox";
 import { MoviesList } from "./MoviesList";
+import { MovieDetails } from "./MovieDetails";
 
 const pageButton =
   "cursor-pointer rounded-3xl border px-5 py-2 hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent";
@@ -13,6 +14,7 @@ export function Movies() {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("movie");
   const [page, setPage] = useState(1);
+  const [selectedId, setSelectedId] = useState(null);
 
   function handleChange(e) {
     setSearch(e.target.value);
@@ -61,47 +63,53 @@ export function Movies() {
       <p className="py-10 text-center text-red-500">Something went wrong</p>
     );
   } else {
-    content = <MoviesList movies={movies} />;
+    content = <MoviesList movies={movies} onSelect={setSelectedId} />;
   }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="text-center text-3xl font-bold">Movie Search</h1>
-      <SearchBox
-        value={search}
-        onChange={handleChange}
-        onClear={() => setSearch("")}
-        onSearch={() => {
-          setQuery(search.trim());
-          setPage(1);
-        }}
-      />
-      {content}
+      {selectedId ? (
+        <MovieDetails id={selectedId} onBack={() => setSelectedId(null)} />
+      ) : (
+        <>
+          <SearchBox
+            value={search}
+            onChange={handleChange}
+            onClear={() => setSearch("")}
+            onSearch={() => {
+              setQuery(search.trim());
+              setPage(1);
+            }}
+          />
+          {content}
 
-      {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-between gap-4">
-          <button
-            type="button"
-            className={pageButton}
-            disabled={page === 1 || loading}
-            onClick={() => setPage((prev) => prev - 1)}
-          >
-            Previous
-          </button>
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-between gap-4">
+              <button
+                type="button"
+                className={pageButton}
+                disabled={page === 1 || loading}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                Previous
+              </button>
 
-          <p className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </p>
+              <p className="text-sm text-gray-600">
+                Page {page} of {totalPages}
+              </p>
 
-          <button
-            type="button"
-            className={pageButton}
-            disabled={page >= totalPages || loading}
-            onClick={() => setPage((prev) => prev + 1)}
-          >
-            Next
-          </button>
-        </div>
+              <button
+                type="button"
+                className={pageButton}
+                disabled={page >= totalPages || loading}
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
