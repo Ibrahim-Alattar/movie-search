@@ -1,16 +1,57 @@
-# React + Vite
+# Movie Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A movie search app built with React and Tailwind CSS, using the OMDb API.
 
-Currently, two official plugins are available:
+**Live demo:** https://movie-search-fbvq.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Search movies and series by title (button or Enter)
+- Results shown in a responsive poster grid
+- Numbered pagination (Previous / Next, "Page X of Y")
+- Loading, error, and no-results states
+- Placeholder for movies with no poster
+- Clear button that refocuses the search box
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the Oxlint configuration
+- React (Vite)
+- Tailwind CSS
+- OMDb API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Run it locally
+
+```bash
+git clone <your-repo-url>
+cd <your-repo-folder>
+npm install
+```
+
+Get a free API key at https://www.omdbapi.com/apikey.aspx, then create a `.env` file in the project root:
+
+```
+VITE_OMDB_KEY=your_key_here
+```
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+## What I practiced
+
+- `useState` and `useEffect`, including the dependency array
+- Fetching data with `async/await`, with loading and error handling
+- Separating typed input (`search`) from submitted input (`query`)
+- Deriving values instead of storing them (`totalPages`)
+- Lifting state up and splitting the UI into components (`SearchBox`, `MoviesList`, `MovieCard`, `Card`)
+- `useRef` for focusing an input
+- Environment variables with Vite (`import.meta.env`)
+- Responsive layouts with Tailwind
+
+## Possible next steps
+
+- Movie details view (plot, rating, genre, runtime)
+- Favorites saved in `localStorage`
+- Cancelling stale requests
